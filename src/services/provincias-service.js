@@ -28,12 +28,11 @@ export default class ProvinciasService {
         const rowsAffected = await this.CurrentRepository.updateAsync(entity);
         return rowsAffected;
     }
-/*    
+   
     deleteByIdAsync = async (id) => {
-        console.log(`MateriasService.deleteByIdAsync(${id})`);
-        const rowsAffected = await this.MateriasRepository.deleteByIdAsync(id);
+         const rowsAffected = await this.CurrentRepository.deleteByIdAsync(id);
         return rowsAffected;
     }
  
-    */
+ 
 }

@@ -100,20 +100,19 @@ export default class ProvinciasRepository {
         }
         return rowsAffected;
     }
-    /*
+     
     deleteByIdAsync = async (id) => {
-        console.log(`AlumnosRepository.deleteByIdAsync(${id})`);
-        let rowsAffected = 0;
+         let rowsAffected = 0;
         
         try {
-            const sql = `DELETE from alumnos WHERE id=$1`;
+            const sql = `DELETE from provincia WHERE id=$1`;
             const values = [id];
             const resultPg = await this.getDBPool().query(sql, values);
             rowsAffected = resultPg.rowCount;
         } catch (error) {
-            LogHelper.logError(error);
+            console.log(error);
         }
         return rowsAffected;
     }
-    */
+     
 }
