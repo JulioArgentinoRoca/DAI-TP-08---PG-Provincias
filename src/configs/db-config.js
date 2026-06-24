@@ -2,7 +2,7 @@ const DBConfig = {
     host        : 'localhost',
     database    : 'DAI_TP8',
     user        : 'postgres',
-    password    : 'iranian dick mashallah', //root 4 school
+    password    : 'root', //root 4 school
     port        : 5432
 }
 

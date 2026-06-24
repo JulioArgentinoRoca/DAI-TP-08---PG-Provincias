@@ -29,12 +29,12 @@ export default class ProvinciasRepository {
         return returnArray;
     }
     
-    /*
+    
     getByIdAsync = async (id) => {
-        console.log(`AlumnosRepository.getByIdAsync(${id})`);
+         
         let returnEntity = null;
         try {
-            const sql = `SELECT * FROM alumnos WHERE id=$1`;
+            const sql = `SELECT * FROM provincia WHERE id=$1`;
             const values = [id];
             const resultPg = await this.getDBPool().query(sql, values);
             if (resultPg.rows.length > 0){
@@ -47,16 +47,12 @@ export default class ProvinciasRepository {
     }
 
     createAsync = async (entity) => {
-        console.log(`AlumnosRepository.createAsync(${JSON.stringify(entity)})`);
+        
         let newId = 0;
 
         try {
-            const sql = ` INSERT INTO alumnos (
-                            nombre              , 
-                            apellido            , 
-                            id_curso            , 
-                            fecha_nacimiento    , 
-                            hace_deportes
+            const sql = ` INSERT INTO provincia (
+                            name, full_name, latitude, longitude, display_order
                         ) VALUES (
                             $1, 
                             $2, 
@@ -64,52 +60,47 @@ export default class ProvinciasRepository {
                             $4, 
                             $5
                         ) RETURNING id`;
-            const values =  [   entity?.nombre              ?? '', 
-                                entity?.apellido            ?? '', 
-                                entity?.id_curso            ?? 0, 
-                                entity?.fecha_nacimiento    ?? null, 
-                                entity?.hace_deportes       ?? 0
+            const values =  [   entity?.name              ?? '', 
+                                entity?.full_name            ?? '', 
+                                entity?.latitude            ?? 0, 
+                                entity?.longitude    ?? null, 
+                                entity?.display_order       ?? 0
                             ];
             const resultPg = await this.getDBPool().query(sql, values);
             newId = resultPg.rows[0].id;
         } catch (error) {
-            LogHelper.logError(error);
+            console.log(error);
         }
         return newId;
     }
 
     updateAsync = async (entity) => {
-        console.log(`AlumnosRepository.updateAsync(${JSON.stringify(entity)})`);
-        let rowsAffected = 0;
+         let rowsAffected = 0;
         let id = entity.id;
         
         try {
             const previousEntity = await this.getByIdAsync(id);
             if (previousEntity== null) return 0;
-            const sql = `UPDATE alumnos SET 
-                            nombre              = $2, 
-                            apellido            = $3, 
-                            id_curso            = $4, 
-                            fecha_nacimiento    = $5, 
-                            hace_deportes       = $6
+            const sql = `UPDATE provincia SET 
+                            name=$2, full_name=$3, latitude=$4, longitude=$5, display_order=$6
                         WHERE id = $1`;
                             
             const values =  [   id,     // $1
-                                entity?.nombre              ?? previousEntity?.nombre, 
-                                entity?.apellido            ?? previousEntity?.apellido, 
-                                entity?.id_curso            ?? previousEntity?.id_curso, 
-                                entity?.fecha_nacimiento    ?? previousEntity?.fecha_nacimiento, 
-                                entity?.hace_deportes       ?? previousEntity?.hace_deportes
+                                entity?.name              ?? previousEntity?.name, 
+                                entity?.full_name            ?? previousEntity?.full_name, 
+                                entity?.latitude            ?? previousEntity?.latitude, 
+                                entity?.longitude    ?? previousEntity?.longitude, 
+                                entity?.display_order       ?? previousEntity?.display_order
                             ];
             const resultPg = await this.getDBPool().query(sql, values);
 
             rowsAffected = resultPg.rowCount;
         } catch (error) {
-            LogHelper.logError(error);
+            console.log(error);
         }
         return rowsAffected;
     }
-    
+    /*
     deleteByIdAsync = async (id) => {
         console.log(`AlumnosRepository.deleteByIdAsync(${id})`);
         let rowsAffected = 0;
