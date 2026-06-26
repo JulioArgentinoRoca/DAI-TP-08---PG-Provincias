@@ -2,6 +2,9 @@ import { Router } from 'express';
 import { StatusCodes } from 'http-status-codes';
 import ProvinciasService from '../services/provincias-service.js';
 import Provincia from '../entities/Provincias.js';
+import LogHelper from '../helpers/validaciones-helper.js'
+
+
 
 const router = Router();
 const currentService = new ProvinciasService();
@@ -14,7 +17,7 @@ router.get('', async (req, res) => {
         res.status(StatusCodes.OK).json(returnArray);
         
     } catch (error) {
-        console.log(error);
+        await LogHelper.logError(error)
         res.status(StatusCodes.INTERNAL_SERVER_ERROR).send(`Error: ${error.message}`);
     }
 });
@@ -31,7 +34,7 @@ router.get('/:id', async (req, res) => {
             res.status(StatusCodes.NOT_FOUND).send(`No existe una provincia con ese id.`);
         }
     } catch (error) {
-        console.log(error);
+        await LogHelper.logError(error)
         res.status(StatusCodes.INTERNAL_SERVER_ERROR).send(`Error: ${error.message}`);
     }
 });
@@ -47,7 +50,7 @@ router.post('', async (req, res) => {
             res.status(StatusCodes.BAD_REQUEST).json(null);
         }
     } catch (error) {
-        console.log(error);
+        await LogHelper.logError(error)
         res.status(StatusCodes.BAD_REQUEST).send(`Error: ${error.message}`);
     }
 });
@@ -65,7 +68,7 @@ router.put('/:id', async (req, res) => {
             res.status(StatusCodes.NOT_FOUND).send(`Provincia no existe`);
         }
     } catch (error) {
-        console.log(error);
+        await LogHelper.logError(error)
         res.status(StatusCodes.BAD_REQUEST).send(`Error: ${error.message}`);
     }
 });
@@ -80,7 +83,7 @@ router.delete('/:id', async (req, res) => {
             res.status(StatusCodes.NOT_FOUND).send(`No se encontro`);
         }
     } catch (error) {
-        console.log(error);
+        await LogHelper.logError(error)
         res.status(StatusCodes.INTERNAL_SERVER_ERROR).send(`Error: ${error.message}`);
     }
 });
