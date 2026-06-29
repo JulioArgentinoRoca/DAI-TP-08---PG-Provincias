@@ -7,13 +7,13 @@ class LogHelper {
 
     constructor() {
 
-        this.filePath = /**process.env.LOG_FILE_PATH */ "C:/Users/49008593/Desktop/loghelper.txt";
+        this.filePath = process.env.LOG_FILE_PATH
 
-        this.fileName = /**process.env.LOG_FILE_NAME  */ "not used";
+        this.fileName = process.env.LOG_FILE_NAME
+        
+        this.logToFileEnabled = process.env.LOG_TO_FILE_ENABLED.toLowerCase() === 'true'
 
-        this.logToFileEnabled = /**process.env.LOG_TO_FILE_ENABLED.toLowerCase() === 'true' */ true;
-
-        this.logToConsoleEnabled = /**process.env.LOG_TO_CONSOLE_ENABLED.toLowerCase() === 'true' */ true;
+        this.logToConsoleEnabled = process.env.LOG_TO_CONSOLE_ENABLED.toLowerCase() === 'true'
 
     }
 
@@ -29,7 +29,10 @@ class LogHelper {
     logError = async (errorObject) => {
 
         try {    
-            if(this.logToFileEnabled){await fs.writeFile(this.filePath, JSON.stringify(errorObject), 'utf8');}
+            if(this.logToFileEnabled){
+                const data = await fs.readFile(this.filePath, 'utf8');
+                await fs.writeFile(this.filePath, data + "\n \n" + JSON.stringify(errorObject), 'utf8');
+            }
             if(this.logToConsoleEnabled){console.log(errorObject)}
 
         } catch (err) {

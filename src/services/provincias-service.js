@@ -7,7 +7,6 @@ export default class ProvinciasService {
     }
 
     getAllAsync = async () => {
-        throw new Error("test of fs")
         const returnArray = await this.CurrentRepository.getAllAsync();
         return returnArray;
     }

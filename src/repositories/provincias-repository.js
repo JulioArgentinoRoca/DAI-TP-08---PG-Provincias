@@ -1,5 +1,6 @@
 import pkg from 'pg'
 import config from './../configs/db-config.js';     
+import LogHelper from '../helpers/validaciones-helper.js'
 
 const { Pool }  = pkg;
 
@@ -24,7 +25,8 @@ export default class ProvinciasRepository {
             const resultPg = await this.getDBPool().query(sql);
             returnArray = resultPg.rows;
         } catch (error) {
-            console.log(error);
+
+            await LogHelper.logError(error)
         }
         return returnArray;
     }
@@ -41,7 +43,7 @@ export default class ProvinciasRepository {
                 returnEntity = resultPg.rows[0];
             }
         } catch (error) {
-            LogHelper.logError(error);
+            await LogHelper.logError(error)
         } 
         return returnEntity;
     }
@@ -69,7 +71,7 @@ export default class ProvinciasRepository {
             const resultPg = await this.getDBPool().query(sql, values);
             newId = resultPg.rows[0].id;
         } catch (error) {
-            console.log(error);
+            await LogHelper.logError(error)
         }
         return newId;
     }
@@ -96,7 +98,7 @@ export default class ProvinciasRepository {
 
             rowsAffected = resultPg.rowCount;
         } catch (error) {
-            console.log(error);
+            await LogHelper.logError(error)
         }
         return rowsAffected;
     }
@@ -110,7 +112,7 @@ export default class ProvinciasRepository {
             const resultPg = await this.getDBPool().query(sql, values);
             rowsAffected = resultPg.rowCount;
         } catch (error) {
-            console.log(error);
+            await LogHelper.logError(error)
         }
         return rowsAffected;
     }
